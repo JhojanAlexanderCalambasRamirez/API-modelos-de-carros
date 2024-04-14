@@ -1,13 +1,14 @@
 import React from 'react';
+import './App.css';
 import CarList from './components/CarList';
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <h1>Mi Aplicación React con Datos de Autos</h1>
+    <div className="App">
+      <h1>Mi Aplicación de Búsqueda de Autos</h1>
       <CarList />
     </div>
   );
-};
+}
 
 export default App;

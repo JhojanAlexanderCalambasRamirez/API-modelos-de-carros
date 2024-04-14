@@ -1,57 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import './CarList.css';
 
 const CarList = () => {
-  const [carData, setCarData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [carData, setCarData] = useState(null);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const url = 'https://car-api2.p.rapidapi.com/api/models?sort=id&direction=asc&year=2020&verbose=yes';
-      const options = {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': '15b2053da7msh14bfa84137379d4p161b2ejsnc48e7ee95313',
-          'X-RapidAPI-Host': 'car-api2.p.rapidapi.com'
-        }
-      };
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-      try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        console.log(data);
-        // Aquí puedes procesar y mostrar los datos en forma de tabla
-    } catch (error) {
-        console.error(error);
-    } 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const apiKey = 'pgSMtTlugtFy1S6JvjAVdQ==o7ve1mMiFLVaMxPL';
+    const url = `https://api.api-ninjas.com/v1/cars?limit=1&model=${searchQuery}`;
+    const options = {
+      headers: {
+        'X-Api-Key': apiKey
+      }
     };
 
-    fetchData();
-  }, []);
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error('Error al obtener los datos');
+      }
+      const data = await response.json();
+      setCarData(data[0]);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      setCarData(null);
+    }
+  };
 
   return (
-    <div>
-      <h2>Lista de Autos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Marca</th>
-            <th>Año</th>
-            {/* Agrega más columnas según la información que quieras mostrar */}
-          </tr>
-        </thead>
-        <tbody>
-          {carData.map(car => (
-            <tr key={car.id}>
-              <td>{car.id}</td>
-              <td>{car.name}</td>
-              <td>{car.make}</td>
-              <td>{car.year}</td>
-              {/* Agrega más celdas según la información que quieras mostrar */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="CarList">
+      <h2>Buscar Modelo de Automóvil</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleInputChange}
+          placeholder="Ingrese el modelo de automóvil"
+        />
+        <button type="submit">Buscar</button>
+      </form>
+      {error && <p>Error: {error}</p>}
+      {carData && (
+        <div>
+          <h2>Información del Automóvil</h2>
+          <p>Modelo: {carData.model}</p>
+          <p>Fabricante: {carData.make}</p>
+          <p>Año: {carData.year}</p>
+          <p>Tipo de combustible: {carData.fuel_type}</p>
+          <p>Transmisión: {carData.transmission}</p>
+        </div>
+      )}
     </div>
   );
 };
