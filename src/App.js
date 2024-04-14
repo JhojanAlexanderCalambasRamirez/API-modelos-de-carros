@@ -1,11 +1,11 @@
 import React from 'react';
-import TuComponente from './TuComponente';
+import CarList from './components/CarList';
 
 const App = () => {
   return (
     <div>
-      <TuComponente />
-      {/* Otros componentes de tu aplicación */}
+      <h1>Mi Aplicación React con Datos de Autos</h1>
+      <CarList />
     </div>
   );
 };
