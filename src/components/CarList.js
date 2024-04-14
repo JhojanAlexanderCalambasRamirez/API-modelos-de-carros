@@ -1,64 +1,81 @@
-import React, { useState } from 'react';
-import './CarList.css';
+import React, { useState, useEffect } from 'react';
 
-const CarList = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [carData, setCarData] = useState(null);
-  const [error, setError] = useState(null);
 
-  const handleInputChange = (event) => {
-    setSearchQuery(event.target.value);
+function CarList() {
+  const [carModel, setCarModel] = useState('');
+  const [carData, setCarData] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setCarModel(value);
+    // Filtrar sugerencias basadas en el valor de entrada
+    const filteredSuggestions = recentSearches.filter(search =>
+      search.toLowerCase().includes(value.toLowerCase())
+    );
+    setSuggestions(filteredSuggestions);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const apiKey = 'pgSMtTlugtFy1S6JvjAVdQ==o7ve1mMiFLVaMxPL';
-    const url = `https://api.api-ninjas.com/v1/cars?limit=1&model=${searchQuery}`;
-    const options = {
+  const handleSubmit = () => {
+    fetch(`https://api.api-ninjas.com/v1/cars?model=${carModel}`, {
+      method: 'GET',
       headers: {
-        'X-Api-Key': apiKey
+        'X-Api-Key': 'pgSMtTlugtFy1S6JvjAVdQ==o7ve1mMiFLVaMxPL'
       }
-    };
-
-    try {
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error('Error al obtener los datos');
+    })
+    .then(response => response.json())
+    .then(data => {
+      setCarData(data);
+      // Agregar la búsqueda reciente al estado solo si no existe previamente
+      if (!recentSearches.includes(carModel)) {
+        setRecentSearches(prevSearches => [carModel, ...prevSearches]);
       }
-      const data = await response.json();
-      setCarData(data[0]);
-      setError(null);
-    } catch (error) {
-      setError(error.message);
-      setCarData(null);
-    }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
   };
 
   return (
-    <div className="CarList">
-      <h2>Buscar Modelo de Automóvil</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleInputChange}
-          placeholder="Ingrese el modelo de automóvil"
-        />
-        <button type="submit">Buscar</button>
-      </form>
-      {error && <p>Error: {error}</p>}
-      {carData && (
-        <div>
-          <h2>Información del Automóvil</h2>
-          <p>Modelo: {carData.model}</p>
-          <p>Fabricante: {carData.make}</p>
-          <p>Año: {carData.year}</p>
-          <p>Tipo de combustible: {carData.fuel_type}</p>
-          <p>Transmisión: {carData.transmission}</p>
-        </div>
+    <div>
+      <h1>Buscar Modelos de Carro</h1>
+      <input
+        type="text"
+        value={carModel}
+        onChange={handleChange}
+        placeholder="Ingrese el modelo del carro"
+      />
+      <button onClick={handleSubmit}>Enviar Petición</button>
+
+      <h2>Resultados:</h2>
+      <ul>
+        {carData.map((car, index) => (
+          <li key={index}>
+            <p>Modelo: {car.model}</p>
+            <p>Fabricante: {car.make}</p>
+            <p>Año: {car.year}</p>
+            <p>Transmisión: {car.transmission}</p>
+            <p>Combustible: {car.fuel_type}</p>
+            <p>Cilindros: {car.cylinders}</p>
+            <p>Tracción: {car.drive}</p>
+            <p>MPG en ciudad: {car.city_mpg}</p>
+            <p>MPG en carretera: {car.highway_mpg}</p>
+            <p>MPG combinado: {car.combination_mpg}</p>
+          </li>
+        ))}
+      </ul>
+
+      {/* Mostrar sugerencias de búsqueda */}
+      {suggestions.length > 0 && (
+        <ul>
+          {suggestions.map((suggestion, index) => (
+            <li key={index}>{suggestion}</li>
+          ))}
+        </ul>
       )}
     </div>
   );
-};
+}
 
 export default CarList;
