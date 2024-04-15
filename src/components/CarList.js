@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-
 function CarList() {
   const [carModel, setCarModel] = useState('');
   const [carData, setCarData] = useState([]);
@@ -26,7 +25,14 @@ function CarList() {
     })
     .then(response => response.json())
     .then(data => {
-      setCarData(data);
+      // Filtrar resultados duplicados por modelo de carro
+      const uniqueCars = [];
+      data.forEach(car => {
+        if (!uniqueCars.some(uniqueCar => uniqueCar.model === car.model)) {
+          uniqueCars.push(car);
+        }
+      });
+      setCarData(uniqueCars);
       // Agregar la búsqueda reciente al estado solo si no existe previamente
       if (!recentSearches.includes(carModel)) {
         setRecentSearches(prevSearches => [carModel, ...prevSearches]);
@@ -38,41 +44,52 @@ function CarList() {
   };
 
   return (
-    <div>
-      <h1>Buscar Modelos de Carro</h1>
-      <input
-        type="text"
-        value={carModel}
-        onChange={handleChange}
-        placeholder="Ingrese el modelo del carro"
-      />
-      <button onClick={handleSubmit}>Enviar Petición</button>
+    <div className="container">
+      <div className="header">
+        <h1>Buscar Modelos de Carro</h1>
+        <div className="search-bar">
+          <input
+            type="text"
+            value={carModel}
+            onChange={handleChange}
+            placeholder="Ingrese el modelo del carro"
+          />
+          <button onClick={handleSubmit}>Enviar Petición</button>
+        </div>
+      </div>
 
-      <h2>Resultados:</h2>
-      <ul>
-        {carData.map((car, index) => (
-          <li key={index}>
-            <p>Modelo: {car.model}</p>
-            <p>Fabricante: {car.make}</p>
-            <p>Año: {car.year}</p>
-            <p>Transmisión: {car.transmission}</p>
-            <p>Combustible: {car.fuel_type}</p>
-            <p>Cilindros: {car.cylinders}</p>
-            <p>Tracción: {car.drive}</p>
-            <p>MPG en ciudad: {car.city_mpg}</p>
-            <p>MPG en carretera: {car.highway_mpg}</p>
-            <p>MPG combinado: {car.combination_mpg}</p>
-          </li>
-        ))}
-      </ul>
+      {carData.length > 0 && ( // Mostrar información solo si hay resultados en carData
+        <div>
+          <h2>Resultados:</h2>
+          <ul>
+            {carData.map((car, index) => (
+              <li key={index}>
+                <p>Modelo: {car.model}</p>
+                <p>Fabricante: {car.make}</p>
+                <p>Año: {car.year}</p>
+                <p>Transmisión: {car.transmission}</p>
+                <p>Combustible: {car.fuel_type}</p>
+                <p>Cilindros: {car.cylinders}</p>
+                <p>Tracción: {car.drive}</p>
+                <p>MPG en ciudad: {car.city_mpg}</p>
+                <p>MPG en carretera: {car.highway_mpg}</p>
+                <p>MPG combinado: {car.combination_mpg}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Mostrar sugerencias de búsqueda */}
       {suggestions.length > 0 && (
-        <ul>
-          {suggestions.map((suggestion, index) => (
-            <li key={index}>{suggestion}</li>
-          ))}
-        </ul>
+        <div>
+          <h3>Sugerencias de búsqueda:</h3>
+          <ul>
+            {suggestions.map((suggestion, index) => (
+              <li key={index}>{suggestion}</li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
