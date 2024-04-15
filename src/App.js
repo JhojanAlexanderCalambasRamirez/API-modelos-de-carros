@@ -11,13 +11,13 @@ function App() {
       <div className="App">
         <Routes>
           {/* Ruta para la página de inicio (CarList) */}
-          <Route path="/" element={<CarList />} />
-
+          <Route path="/" element={<CarList />} /> {/* Esta es la ruta para la página de inicio */}
+          
           {/* Ruta para la página de inicio de sesión (Login) */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/components/Usuarios/login" element={<Login />} />
 
           {/* Ruta para la página de registro (Signup) */}
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/components/Usuarios/signup" element={<Signup />} />
         </Routes>
       </div>
     </Router>
@@ -25,5 +25,3 @@ function App() {
 }
 
 export default App;
-
-

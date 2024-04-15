@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -8,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Configuración de la base de datos
-mongoose.connect('mongodb://localhost:27017/UsuariosCar.Usuarios', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/UsuariosCar', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Conexión exitosa a MongoDB'))
   .catch(err => console.error('Error de conexión a MongoDB:', err));
 
@@ -33,7 +32,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/Login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
@@ -53,7 +52,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Iniciar el servidor
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000; // Cambiado a 8000 para coincidir con el puerto deseado
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

@@ -1,45 +1,32 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Cambiar useHistory por useNavigate
 import axios from 'axios';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Cambiar useHistory por useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/', {
+      const response = await axios.post('http://localhost:8000/Login', {
         email,
         password,
       });
       if (response.data === 'exist') {
-        navigate('/home');
+        navigate('/CarList'); // Cambiar push por navigate
       } else if (response.data === 'notexist') {
         alert('User has not signed up');
       }
     } catch (error) {
-      if (error.response) {
-        // El servidor respondió con un código de error
-        if (error.response.status === 401) {
-          alert('Email or password is incorrect. Please try again.');
-        } else {
-          alert('An error occurred. Please try again later.');
-        }
-      } else if (error.request) {
-        // La solicitud se hizo pero no se recibió respuesta
-        alert('No response from server. Please try again later.');
-      } else {
-        // Ocurrió un error antes de realizar la solicitud
-        console.error('Error:', error.message);
-        alert('An unexpected error occurred. Please try again later.');
-      }
+      console.error('Error:', error);
+      alert('Wrong details. Please try again.');
     }
   };
 
   return (
-    <div className="login">
+    <div className="Login">
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input

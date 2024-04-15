@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 function CarList() {
   const [carModel, setCarModel] = useState('');
   const [carData, setCarData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
-  const location = useLocation();
+  //const location = useLocation();
 
   const handleChange = (event) => {
     const value = event.target.value;
@@ -61,7 +61,7 @@ function CarList() {
             onChange={handleChange}
             placeholder="Ingrese el modelo del carro"
           />
-          <button onClick={handleSubmit}>Enviar Petición</button>
+          <button onClick={handleSubmit}>Buscar</button>
         </div>
       </div>
 
@@ -102,4 +102,3 @@ function CarList() {
 }
 
 export default CarList;
-

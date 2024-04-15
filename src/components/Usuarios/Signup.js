@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Cambiar useHistory por useNavigate
 import axios from 'axios';
@@ -11,14 +10,14 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/signup', {
+      const response = await axios.post('http://localhost:8000/Signup', {
         email,
         password,
       });
       if (response.data === 'exist') {
         alert('User already exists');
       } else if (response.data === 'notexist') {
-        navigate('/home'); // Cambiar push por navigate
+        navigate('/CarList'); // Cambiar push por navigate
       }
     } catch (error) {
       console.error('Error:', error);
@@ -27,7 +26,7 @@ function Signup() {
   };
 
   return (
-    <div className="signup">
+    <div className="Signup">
       <h1>Signup</h1>
       <form onSubmit={handleSubmit}>
         <input
