@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -55,4 +55,4 @@ app.post('/Login', async (req, res) => {
 const PORT = process.env.PORT || 8000; // Cambiado a 8000 para coincidir con el puerto deseado
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+});*/

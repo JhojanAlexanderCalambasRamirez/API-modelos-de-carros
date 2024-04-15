@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-//import { useLocation } from 'react-router-dom';
 
 function CarList() {
   const [carModel, setCarModel] = useState('');
   const [carData, setCarData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
-  //const location = useLocation();
 
   const handleChange = (event) => {
     const value = event.target.value;
     setCarModel(value);
     // Filtrar sugerencias basadas en el valor de entrada
-    const filteredSuggestions = recentSearches.filter((search) =>
+    const filteredSuggestions = recentSearches.filter(search =>
       search.toLowerCase().includes(value.toLowerCase())
     );
     setSuggestions(filteredSuggestions);
@@ -25,30 +23,18 @@ function CarList() {
         'X-Api-Key': 'pgSMtTlugtFy1S6JvjAVdQ==o7ve1mMiFLVaMxPL'
       }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        // Filtrar resultados duplicados por modelo de carro
-        const uniqueCars = [];
-        data.forEach((car) => {
-          if (!uniqueCars.some((uniqueCar) => uniqueCar.model === car.model)) {
-            uniqueCars.push(car);
-          }
-        });
-        setCarData(uniqueCars);
-        // Agregar la búsqueda reciente al estado solo si no existe previamente
-        if (!recentSearches.includes(carModel)) {
-          setRecentSearches((prevSearches) => [carModel, ...prevSearches]);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+    .then(response => response.json())
+    .then(data => {
+      setCarData(data);
+      // Agregar la búsqueda reciente al estado solo si no existe previamente
+      if (!recentSearches.includes(carModel)) {
+        setRecentSearches(prevSearches => [carModel, ...prevSearches]);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
   };
-
-  useEffect(() => {
-    // Aquí puedes añadir cualquier código que quieras ejecutar cuando el componente se monte
-    // Por ejemplo, cargar datos iniciales
-  }, []);
 
   return (
     <div className="container">
@@ -61,11 +47,11 @@ function CarList() {
             onChange={handleChange}
             placeholder="Ingrese el modelo del carro"
           />
-          <button onClick={handleSubmit}>Buscar</button>
+          <button onClick={handleSubmit}>Enviar Petición</button>
         </div>
       </div>
 
-      {carData.length > 0 && (
+      {carData.length > 0 && ( // Mostrar información solo si hay resultados en carData
         <div>
           <h2>Resultados:</h2>
           <ul>
@@ -87,6 +73,7 @@ function CarList() {
         </div>
       )}
 
+      {/* Mostrar sugerencias de búsqueda */}
       {suggestions.length > 0 && (
         <div>
           <h3>Sugerencias de búsqueda:</h3>

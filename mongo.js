@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+/*const mongoose = require("mongoose");
 
 // Conectarse a la base de datos MongoDB
 mongoose.connect("mongodb://localhost:27017/UsuarioCar", {
@@ -27,4 +27,4 @@ const userSchema = new mongoose.Schema({
 // Crear el modelo de la colección de usuarios
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+module.exports = User;*/

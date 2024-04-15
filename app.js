@@ -1,4 +1,4 @@
-const express = require("express");
+/*const express = require("express");
 const cors = require("cors");
 const User = require("./mongo"); // Importar el modelo de usuario
 const bcrypt = require("bcrypt"); // Importar bcrypt para el hash de contraseñas
@@ -60,4 +60,4 @@ app.post("/components/Usuario/Login", async (req, res) => {
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en el puerto ${PORT}`);
-});
+});*/
