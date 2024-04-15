@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Conectarse a la base de datos MongoDB
-mongoose.connect("mongodb://localhost:27017/UsuariosCar", {
+mongoose.connect("mongodb://localhost:27017/UsuariosCar.Usuarios", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

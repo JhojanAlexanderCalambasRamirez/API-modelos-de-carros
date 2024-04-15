@@ -1,3 +1,4 @@
+// "nodemon app.j" para conectar con mongodb
 const express = require("express");
 const cors = require("cors");
 const User = require("./mongo"); // Importar el modelo de usuario
@@ -33,7 +34,7 @@ app.post("/signup", async (req, res) => {
 });
 
 // Ruta para iniciar sesión
-app.post("/login", async (req, res) => {
+app.post("/components/Usuario/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
