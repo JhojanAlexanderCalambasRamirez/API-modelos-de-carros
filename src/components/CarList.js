@@ -1,8 +1,6 @@
-// CarList.js
-
 import React, { useState, useEffect } from 'react';
 
-function CarList({ darkMode }) { // Añade darkMode como prop
+function CarList({ darkMode }) {
   const [carModel, setCarModel] = useState('');
   const [carData, setCarData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -56,22 +54,21 @@ function CarList({ darkMode }) { // Añade darkMode como prop
       {carData.length > 0 && (
         <div>
           <h2>Resultados:</h2>
-          <ul>
-            {carData.map((car, index) => (
-              <li key={index}>
-                <p>Modelo: {car.model}</p>
-                <p>Fabricante: {car.make}</p>
-                <p>Año: {car.year}</p>
-                <p>Transmisión: {car.transmission}</p>
-                <p>Combustible: {car.fuel_type}</p>
-                <p>Cilindros: {car.cylinders}</p>
-                <p>Tracción: {car.drive}</p>
-                <p>MPG en ciudad: {car.city_mpg}</p>
-                <p>MPG en carretera: {car.highway_mpg}</p>
-                <p>MPG combinado: {car.combination_mpg}</p>
-              </li>
-            ))}
-          </ul>
+          {carData.map((car, index) => (
+            <div key={index} className="car-info">
+              <p>Modelo: {car.model}</p>
+              <p>Fabricante: {car.make}</p>
+              <p>Año: {car.year}</p>
+              <p>Transmisión: {car.transmission}</p>
+              <p>Combustible: {car.fuel_type}</p>
+              <p>Cilindros: {car.cylinders}</p>
+              <p>Tracción: {car.drive}</p>
+              <p>MPG en ciudad: {car.city_mpg}</p>
+              <p>MPG en carretera: {car.highway_mpg}</p>
+              <p>MPG combinado: {car.combination_mpg}</p>
+              {index !== carData.length - 1 && <hr />} {/* Agregar una línea divisoria si no es el último elemento */}
+            </div>
+          ))}
         </div>
       )}
 
