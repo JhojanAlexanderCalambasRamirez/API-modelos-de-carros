@@ -1,6 +1,8 @@
+// CarList.js
+
 import React, { useState, useEffect } from 'react';
 
-function CarList() {
+function CarList({ darkMode }) { // Añade darkMode como prop
   const [carModel, setCarModel] = useState('');
   const [carData, setCarData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -37,7 +39,7 @@ function CarList() {
   };
 
   return (
-    <div className="container">
+    <div className={`container ${darkMode ? 'dark-mode' : 'light-mode'}`}> 
       <div className="header">
         <h1>Buscar Modelos de Carro</h1>
         <div className="search-bar">
@@ -51,7 +53,7 @@ function CarList() {
         </div>
       </div>
 
-      {carData.length > 0 && ( // Mostrar información solo si hay resultados en carData
+      {carData.length > 0 && (
         <div>
           <h2>Resultados:</h2>
           <ul>
@@ -73,7 +75,6 @@ function CarList() {
         </div>
       )}
 
-      {/* Mostrar sugerencias de búsqueda */}
       {suggestions.length > 0 && (
         <div>
           <h3>Sugerencias de búsqueda:</h3>
